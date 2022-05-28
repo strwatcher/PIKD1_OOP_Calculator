@@ -1,0 +1,68 @@
+﻿<Window x:Class="Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="250"
+        ResizeMode="NoResize">
+    <Grid Name="ControlsGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.ColumnSpan="5"  FlowDirection="RightToLeft" Name="LabelLog" FontSize="14pt"></Label>
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" FlowDirection="RightToLeft" Name="LabelCurrentNum" FontSize="20pt" Content="0"></Label> 
+        <Button Grid.Row="2" Grid.Column="0" Content="MC" Name="McButton" Click="McButton_OnClick"></Button>
+        <Button Grid.Row="2" Grid.Column="1" Content="MR" Name="MrButton" Click="MrButton_OnClick"></Button>
+        <Button Grid.Row="2" Grid.Column="2" Content="MS" Name="MsButton" Click="MsButton_OnClick"></Button>
+        <Button Grid.Row="2" Grid.Column="3" Content="M+" Name="MPlusButton" Click="MPlusButton_OnClick"></Button>
+        <Button Grid.Row="2" Grid.Column="4" Content="M-" Name="MMinusButton" Click="MMinusButton_OnClick"></Button>
+        
+        <Button Grid.Row="3" Grid.Column="0" Content="🠀" FontSize="24pt" Name="BackspaceButton" Click="BackspaceButton_OnClick"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="CE" Name="CeButton" Click="CeButton_OnClick"></Button>
+        <Button Grid.Row="3" Grid.Column="2" Content="C" Name="CButton" Click="CButton_OnClick"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Content="±" Name="SignButton"></Button>
+        <Button Grid.Row="3" Grid.Column="4" Content="√" Name="SqrtButton"></Button>
+        
+        <Button Grid.Row="4" Grid.Column="3" Content="/" Name="DivideButton"></Button>
+        <Button Grid.Row="4" Grid.Column="4" Content="%" Name="ModButton"></Button>
+        
+        
+        <Button Grid.Row="5" Grid.Column="3" Content="*" Name="MultButton"></Button>
+        <Button Grid.Row="5" Grid.Column="4" Content="1/x" Name="InvertButton"></Button>
+        
+        <Button Grid.Row="6" Grid.Column="3" Content="-" Name="MinusButton"></Button>
+        <Button Grid.Row="7" Grid.Column="3" Content="+" Name="PlusButton"></Button>
+        
+        <Button Grid.Row="6" Grid.Column="4" Grid.RowSpan="2" Content="=" Name="EqualsButton" Click="EqualsButton_OnClick"></Button>
+        
+        <Button Grid.Row="4" Grid.Column="0" Content="7" Name="Button7"></Button>
+        <Button Grid.Row="4" Grid.Column="1" Content="8" Name="Button8"></Button>
+        <Button Grid.Row="4" Grid.Column="2" Content="9" Name="Button9"></Button>
+        
+        <Button Grid.Row="5" Grid.Column="0" Content="4" Name="Button4"></Button>
+        <Button Grid.Row="5" Grid.Column="1" Content="5" Name="Button5"></Button>
+        <Button Grid.Row="5" Grid.Column="2" Content="6" Name="Button6"></Button>
+        
+        <Button Grid.Row="6" Grid.Column="0" Content="1" Name="Button1"></Button>
+        <Button Grid.Row="6" Grid.Column="1" Content="2" Name="Button2"></Button>
+        <Button Grid.Row="6" Grid.Column="2" Content="3" Name="Button3"></Button>
+        
+        <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="0" Name="Button0"></Button>
+        <Button Grid.Row="7" Grid.Column="2" Content="." Name="DotButton"></Button>
+    </Grid>
+</Window>
