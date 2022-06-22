@@ -3,7 +3,8 @@
     public enum OpsState
     {
         Default,
-        BOProcessing,
+        BOChoice,
+        BOStarted,
         BOProcessed,
     }
 
@@ -13,10 +14,11 @@
         Changed,
     }
 
-    public enum CurNumState
+    public enum NumState
     {
         Default,
         WaitForDot,
+        WaitForLast,
         Overflow,
     }
 

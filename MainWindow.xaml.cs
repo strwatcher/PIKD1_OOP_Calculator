@@ -25,12 +25,18 @@ namespace Calculator
         private MathOperationsProcessor _processor = new MathOperationsProcessor();
         
         private OpsState _opState = OpsState.Default;
-        private CurNumState _curState = CurNumState.Default;
+        private NumState _numState = NumState.Default;
         private BOArgState _boArgState = BOArgState.Default;
         private DotState _dotState = DotState.NotExists;
-        private string _curBinOp;
-        private double _curArgument;
-        private double _accumulator;
+        private string _curBinOp = null;
+        private double? _curArgument = null;
+        private double? _accumulator = null;
+
+        private double CurNum
+        {
+            get => Convert.ToDouble(TBCurNum.Text);
+            set => TBCurNum.Text = value.ToString();
+        }
 
         public MainWindow()
         {
@@ -52,10 +58,8 @@ namespace Calculator
             BindDigitButtons();
             BindUnOperations();
             BindBinOperations();
-            TBCurrentNum.TextChanged += (sender, args) => FixCurrentNumTB();
+            TBCurNum.TextChanged += (sender, args) => FixCurrentNumTB();
         }
-
-        private double CurrentNum => Convert.ToDouble(TBCurrentNum.Text);
 
         private void BindDigitButtons()
         {
@@ -63,7 +67,6 @@ namespace Calculator
                 digit.Click += DigitButton_OnClick;
             
         }
-
         private void BindUnOperations()
         {
             foreach (var unOperation in _unOps) 
@@ -103,18 +106,18 @@ namespace Calculator
 
         private void BackspaceButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (TBCurrentNum.Text[TBCurrentNum.Text.Length - 1] == '.') _dotState = DotState.NotExists;
-            if (TBCurrentNum.Text.Length > 1)
-                TBCurrentNum.Text = TBCurrentNum.Text.Substring(0, TBCurrentNum.Text.Length - 1);
+            if (TBCurNum.Text[TBCurNum.Text.Length - 1] == '.') _dotState = DotState.NotExists;
+            if (TBCurNum.Text.Length > 1)
+                TBCurNum.Text = TBCurNum.Text.Substring(0, TBCurNum.Text.Length - 1);
             else
                 CeButton_OnClick(sender, e);
         }
 
         private void CeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            TBCurrentNum.Text = "0";
+            TBCurNum.Text = "0";
             _dotState = DotState.NotExists;
-            _curState = CurNumState.Default;
+            _numState = NumState.Default;
         }
 
         private void CButton_OnClick(object sender, RoutedEventArgs e)
@@ -123,85 +126,55 @@ namespace Calculator
             _accumulator = 0.0;
             _curBinOp = "";
             _opState = OpsState.Default;
-            _curState = CurNumState.Default;
             _boArgState = BOArgState.Default;
             CeButton_OnClick(sender, e);
         }
 
-        private void EqualsButton_OnClick(object sender, RoutedEventArgs e)
+        private void DigitButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_opState == OpsState.BOProcessing)
+            if (TBCurNum.Text == "0") TBCurNum.Text = "";
+            string buttonText = (sender as Button)?.Content.ToString();
+            if (_numState == NumState.Default ||
+                _numState == NumState.WaitForLast || 
+                _numState == NumState.WaitForDot && buttonText == ".")
             {
-                _curArgument = Convert.ToDouble(TBCurrentNum.Text);
-                _opState = OpsState.BOProcessed;
-            }
-            if (_opState == OpsState.BOProcessed)
-            {
-                _accumulator = _processor.ProcessOperation(_curBinOp,
-                    new List<double> {_accumulator, _curArgument});
-                TBCurrentNum.Text = _accumulator.ToString();
+                if (buttonText == "." && _dotState == DotState.Exists) return;
+                if (buttonText == ".") _dotState = DotState.Exists;
+                
+                TBCurNum.Text += buttonText ?? String.Empty;
             }
         }
 
-        private void DigitButton_OnClick(object sender, RoutedEventArgs e)
+        private void EqualsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_opState == OpsState.BOProcessing && _boArgState == BOArgState.Default)
-            {
-                CeButton_OnClick(sender, e);
-                _boArgState = BOArgState.Changed;
-            }
-            if (TBCurrentNum.Text == "0") TBCurrentNum.Text = "";
-            if (_curState == CurNumState.Overflow) return;
-            if ((sender as Button)?.Content.ToString() == ".")
-            {
-                if (_dotState == DotState.Exists) return;
-                _dotState = DotState.Exists;
-            } 
-            
-            TBCurrentNum.Text += (sender as Button)?.Content.ToString() ?? string.Empty;
         }
 
         private void BinOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            _curBinOp = (sender as Button)?.Content.ToString();
-            _boArgState = BOArgState.Default;
-            if (_opState == OpsState.Default || _opState == OpsState.BOProcessed)
-            {
-                _opState = OpsState.BOProcessing;
-                _curBinOp = (sender as Button)?.Content.ToString();
-                _accumulator = Convert.ToDouble(TBCurrentNum.Text);
-            }
-            else
-            {
-                _accumulator = _processor.ProcessOperation(_curBinOp,
-                    new List<double> {_accumulator, Convert.ToDouble(TBCurrentNum.Text)});
-                TBCurrentNum.Text = _accumulator.ToString();
-                _curArgument = _accumulator;
-            }
-
         }
 
         private void UnOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            double result = _processor.ProcessOperation(
-                (sender as Button)?.Content.ToString(), new List<double> {CurrentNum});
-            TBCurrentNum.Text = result.ToString();
-            
         }
 
         private void FixCurrentNumTB()
         {
             FontSizeConverter fs = new FontSizeConverter();
-            if (TBCurrentNum.Text.Length > 16)
-                TBCurrentNum.FontSize = (double) fs.ConvertFrom("14pt");
-            else if (TBCurrentNum.Text.Length > 12)
-                TBCurrentNum.FontSize = (double) fs.ConvertFrom("18pt");
+            if (TBCurNum.Text.Length > 16)
+                TBCurNum.FontSize = (double) fs.ConvertFrom("14pt");
+            else if (TBCurNum.Text.Length > 12)
+                TBCurNum.FontSize = (double) fs.ConvertFrom("18pt");
             else 
-                TBCurrentNum.FontSize = (double) fs.ConvertFrom("20pt");
+                TBCurNum.FontSize = (double) fs.ConvertFrom("20pt");
             
-            _curState = TBCurrentNum.Text.Length == 16
-                ? CurNumState.Overflow
-                : CurNumState.Default;
+            if (TBCurNum.Text.Length == 16)
+            {
+                _numState = _dotState == DotState.Exists 
+                    ? NumState.WaitForLast 
+                    : NumState.WaitForDot;
+            } 
+            else if (TBCurNum.Text.Length < 16) _numState = NumState.Default;
+            else _numState = NumState.Overflow;
         }
     }
 }
