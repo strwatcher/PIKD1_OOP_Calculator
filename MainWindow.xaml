@@ -24,8 +24,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TBLog" FontSize="14pt" HorizontalContentAlignment="Right"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TBCurNum" FontSize="20pt" Text="0" HorizontalContentAlignment="Right"></TextBox>
+        <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbLog" FontSize="12pt" HorizontalContentAlignment="Right"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbCurNum" FontSize="18pt" Text="0" HorizontalContentAlignment="Right"></TextBox>
         <Button Grid.Row="2" Grid.Column="0" Content="MC" Name="McButton" Click="McButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="1" Content="MR" Name="MrButton" Click="MrButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="2" Content="MS" Name="MsButton" Click="MsButton_OnClick"></Button>
@@ -35,34 +35,34 @@
         <Button Grid.Row="3" Grid.Column="0" Content="🠀" FontSize="24pt" Name="BackspaceButton" Click="BackspaceButton_OnClick"></Button>
         <Button Grid.Row="3" Grid.Column="1" Content="CE" Name="CeButton" Click="CeButton_OnClick"></Button>
         <Button Grid.Row="3" Grid.Column="2" Content="C" Name="CButton" Click="CButton_OnClick"></Button>
-        <Button Grid.Row="3" Grid.Column="3" Content="±" Name="SignButton"></Button>
-        <Button Grid.Row="3" Grid.Column="4" Content="√" Name="SqrtButton"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Content="±" Name="SignButton" Click="UnOperationButton_OnClick"></Button>
+        <Button Grid.Row="3" Grid.Column="4" Content="√" Name="SqrtButton" Click="UnOperationButton_OnClick"></Button>
         
-        <Button Grid.Row="4" Grid.Column="3" Content="/" Name="DivideButton"></Button>
+        <Button Grid.Row="4" Grid.Column="3" Content="/" Name="DivideButton" Click="BinOperationButton_OnClick"></Button>
         <Button Grid.Row="4" Grid.Column="4" Content="%" Name="PercentButton"></Button>
         
         
-        <Button Grid.Row="5" Grid.Column="3" Content="*" Name="MultButton"></Button>
-        <Button Grid.Row="5" Grid.Column="4" Content="1/x" Name="InvertButton"></Button>
+        <Button Grid.Row="5" Grid.Column="3" Content="*" Name="MultButton" Click="BinOperationButton_OnClick"></Button>
+        <Button Grid.Row="5" Grid.Column="4" Content="1/x" Name="InvertButton" Click="UnOperationButton_OnClick"></Button>
         
-        <Button Grid.Row="6" Grid.Column="3" Content="-" Name="MinusButton"></Button>
-        <Button Grid.Row="7" Grid.Column="3" Content="+" Name="PlusButton"></Button>
+        <Button Grid.Row="6" Grid.Column="3" Content="-" Name="MinusButton" Click="BinOperationButton_OnClick"></Button>
+        <Button Grid.Row="7" Grid.Column="3" Content="+" Name="PlusButton" Click="BinOperationButton_OnClick"></Button>
         
         <Button Grid.Row="6" Grid.Column="4" Grid.RowSpan="2" Content="=" Name="EqualsButton" Click="EqualsButton_OnClick"></Button>
         
-        <Button Grid.Row="4" Grid.Column="0" Content="7" Name="Button7"></Button>
-        <Button Grid.Row="4" Grid.Column="1" Content="8" Name="Button8"></Button>
-        <Button Grid.Row="4" Grid.Column="2" Content="9" Name="Button9"></Button>
+        <Button Grid.Row="4" Grid.Column="0" Content="7" Name="Button7" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="4" Grid.Column="1" Content="8" Name="Button8" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="4" Grid.Column="2" Content="9" Name="Button9" Click="DigitButton_OnClick"></Button>
         
-        <Button Grid.Row="5" Grid.Column="0" Content="4" Name="Button4"></Button>
-        <Button Grid.Row="5" Grid.Column="1" Content="5" Name="Button5"></Button>
-        <Button Grid.Row="5" Grid.Column="2" Content="6" Name="Button6"></Button>
+        <Button Grid.Row="5" Grid.Column="0" Content="4" Name="Button4" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="5" Grid.Column="1" Content="5" Name="Button5" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="5" Grid.Column="2" Content="6" Name="Button6" Click="DigitButton_OnClick"></Button>
         
-        <Button Grid.Row="6" Grid.Column="0" Content="1" Name="Button1"></Button>
-        <Button Grid.Row="6" Grid.Column="1" Content="2" Name="Button2"></Button>
-        <Button Grid.Row="6" Grid.Column="2" Content="3" Name="Button3"></Button>
+        <Button Grid.Row="6" Grid.Column="0" Content="1" Name="Button1" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="6" Grid.Column="1" Content="2" Name="Button2" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="6" Grid.Column="2" Content="3" Name="Button3" Click="DigitButton_OnClick"></Button>
         
-        <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="0" Name="Button0"></Button>
-        <Button Grid.Row="7" Grid.Column="2" Content="." Name="DotButton"></Button>
+        <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="0" Name="Button0" Click="DigitButton_OnClick"></Button>
+        <Button Grid.Row="7" Grid.Column="2" Content="." Name="DotButton" Click="DigitButton_OnClick"></Button>
     </Grid>
 </Window>

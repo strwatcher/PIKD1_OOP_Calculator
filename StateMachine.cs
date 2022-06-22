@@ -20,19 +20,25 @@ namespace Calculator
             _uoState = UoState.Default;
         }
 
-        public void UpdateStatesAfterBackspace(bool isDot, Action action)
+        public void UpdateStatesAfterBackspace(bool isDot, Action backspace)
         {
             if (_boState == BoState.BoChoose) return;
             if (isDot) _dotState = DotState.NotExists;
-            action();
+            backspace();
         }
         public void UpdateStatesAfterDo(string operation, 
-            Action boChoose, Action canEnter)
+            Action clearNum, Action enterDigit)
         {
             if (_boState == BoState.BoChoose)
             {
-                boChoose();
+                clearNum();
                 _boState = BoState.BoStarted;
+            }
+
+            if (_boState == BoState.BOProcessed)
+            {
+                clearNum();
+                _boState = BoState.Default;
             }
 
             if (_numState == NumState.Default ||
@@ -41,33 +47,38 @@ namespace Calculator
             {
                  if (operation == "." && _dotState == DotState.Exists) return;
                  if (operation == ".") _dotState = DotState.Exists;
-                 canEnter();
+                 enterDigit();
             }
         }
 
-        public void UpdateStatesAfterEo(Action boDefault)
+        public void UpdateStatesAfterEo(Action boProcessed, Action repeatOperation)
         {
-            if (_boState != BoState.Default) boDefault();
-            _boState = BoState.Default;
+            if (_boState == BoState.BoChoose || _boState == BoState.BoStarted)
+            {
+                boProcessed();
+                _boState = BoState.BOProcessed;
+            }
+            else if (_boState == BoState.BOProcessed || _boState == BoState.Default) repeatOperation();
         }
-        public void UpdateStatesAfterBo(string operation,
-            Action<BoState, UoState> common, Action d,
-            Action boChoose, Action boStarted)
+        public void UpdateStatesAfterBo(Action<BoState, UoState> log, Action updateOperation,
+            Action updateAccumulator, Action process)
         {
-            common(_boState, _uoState);
+            log(_boState, _uoState);
             if (_boState == BoState.Default)
             {
-                d();
+                updateOperation();
+                updateAccumulator();
                 _boState = BoState.BoChoose;
                 _uoState = UoState.Default;
             }
             else if (_boState == BoState.BoChoose)
             {
-                boChoose();
+                updateOperation();
             }
             else if (_boState == BoState.BoStarted)
             {
-                boStarted();
+                updateOperation();
+                process();
                 _boState = BoState.BoChoose;
                 _uoState = UoState.Default;
             }
