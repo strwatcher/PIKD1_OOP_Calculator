@@ -24,8 +24,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Grid.ColumnSpan="5"  FlowDirection="RightToLeft" Name="LabelLog" FontSize="14pt"></Label>
-        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" FlowDirection="RightToLeft" Name="LabelCurrentNum" FontSize="20pt" Content="0"></Label> 
+        <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TBLog" FontSize="14pt" HorizontalContentAlignment="Right"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TBCurrentNum" FontSize="20pt" Text="0" HorizontalContentAlignment="Right"></TextBox>
         <Button Grid.Row="2" Grid.Column="0" Content="MC" Name="McButton" Click="McButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="1" Content="MR" Name="MrButton" Click="MrButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="2" Content="MS" Name="MsButton" Click="MsButton_OnClick"></Button>
@@ -39,7 +39,7 @@
         <Button Grid.Row="3" Grid.Column="4" Content="√" Name="SqrtButton"></Button>
         
         <Button Grid.Row="4" Grid.Column="3" Content="/" Name="DivideButton"></Button>
-        <Button Grid.Row="4" Grid.Column="4" Content="%" Name="ModButton"></Button>
+        <Button Grid.Row="4" Grid.Column="4" Content="%" Name="PercentButton"></Button>
         
         
         <Button Grid.Row="5" Grid.Column="3" Content="*" Name="MultButton"></Button>

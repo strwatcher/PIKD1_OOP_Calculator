@@ -34,9 +34,18 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="BigRational, Version=1.1.0.50000, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\ExtendedNumerics.BigRational.1.1.0.50000\lib\net45\BigRational.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="ExtendedNumerics.BigDecimal, Version=2022.108.525.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\ExtendedNumerics.BigDecimal.2022.108.525\lib\net48\ExtendedNumerics.BigDecimal.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Numerics" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Xaml">
             <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -50,6 +59,7 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
+        <Compile Include="OpsState.cs" />
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
@@ -58,6 +68,7 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="MathOpertationsProcessor.cs" />
         <Compile Include="MainWindow.xaml.cs">
             <DependentUpon>MainWindow.xaml</DependentUpon>
             <SubType>Code</SubType>
@@ -79,6 +90,7 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
+        <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
