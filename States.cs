@@ -1,17 +1,17 @@
 ﻿namespace Calculator
 {
-    public enum OpsState
+    public enum BoState
     {
         Default,
-        BOChoose,
-        BOStarted,
+        BoChoose,
+        BoStarted,
         BOProcessed,
     }
 
-    public enum UOState
+    public enum UoState
     {
         Default,
-        Logged,
+        Logged
     }
 
     public enum NumState
@@ -19,7 +19,7 @@
         Default,
         WaitForDot,
         WaitForLast,
-        Overflow,
+        Overflow
     }
 
     public enum DotState

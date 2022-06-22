@@ -16,21 +16,10 @@ namespace Calculator
         private readonly List<Button> _digits;
         private readonly List<Button> _binOps;
         private readonly List<Button> _unOps;
-        private readonly List<string> _binOperations = new List<string> {"+", "-", "*", "/"};
-
-        private readonly Dictionary<string, string> _unOpsDict = new Dictionary<string, string>
-        {
-            {"√", "sqrt"},
-            {"±", "negate"},
-            {"1/x", "reciproc"}
-        };
-
-        private MathOperationsProcessor _processor = new MathOperationsProcessor();
+        private readonly MathOperationsProcessor _processor = new MathOperationsProcessor();
+        private readonly Logger _logger = new Logger();
+        private readonly StateMachine _sm = new StateMachine();
         
-        private OpsState _opState = OpsState.Default;
-        private NumState _numState = NumState.Default;
-        private DotState _dotState = DotState.NotExists;
-        private UOState _uoState = UOState.Default;
         private string _curBinOp;
         private double _curArgument;
         private double _accumulator;
@@ -109,18 +98,21 @@ namespace Calculator
 
         private void BackspaceButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (TBCurNum.Text[TBCurNum.Text.Length - 1] == '.') _dotState = DotState.NotExists;
-            if (TBCurNum.Text.Length > 1)
-                TBCurNum.Text = TBCurNum.Text.Substring(0, TBCurNum.Text.Length - 1);
-            else
-                CeButton_OnClick(sender, e);
+            _sm.UpdateStatesAfterBackspace(
+                TBCurNum.Text[TBCurNum.Text.Length - 1] == '.',
+                () =>
+                {
+                    if (TBCurNum.Text.Length > 1)
+                        TBCurNum.Text = TBCurNum.Text.Substring(0, TBCurNum.Text.Length - 1);
+                    else
+                        CeButton_OnClick(sender, e);
+                });
         }
 
         private void CeButton_OnClick(object sender, RoutedEventArgs e)
         {
             TBCurNum.Text = "0";
-            _dotState = DotState.NotExists;
-            _numState = NumState.Default;
+            _sm.ClearNumStates();
         }
 
         private void CButton_OnClick(object sender, RoutedEventArgs e)
@@ -128,29 +120,19 @@ namespace Calculator
             TBLog.Text = "";
             _curBinOp = "";
             _accumulator = 0.0;
-            _opState = OpsState.Default;
-            _uoState = UOState.Default;
+            _sm.ClearCommonStates();
+            _logger.Erase();
             CeButton_OnClick(sender, e);
         }
 
         private void DigitButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (TBCurNum.Text == "0") TBCurNum.Text = "";
-            if (_opState == OpsState.BOChoose)
-            {
-                TBCurNum.Text = "";
-                _opState = OpsState.BOStarted;
-            }
             string buttonText = (sender as Button)?.Content.ToString();
-            if (_numState == NumState.Default ||
-                _numState == NumState.WaitForLast || 
-                _numState == NumState.WaitForDot && buttonText == ".")
-            {
-                if (buttonText == "." && _dotState == DotState.Exists) return;
-                if (buttonText == ".") _dotState = DotState.Exists;
-                
-                TBCurNum.Text += buttonText ?? String.Empty;
-            }
+            _sm.UpdateStatesAfterDo(buttonText,
+                () => TBCurNum.Text = "", 
+                () => TBCurNum.Text += buttonText ?? String.Empty
+                );
         }
 
         private void EqualsButton_OnClick(object sender, RoutedEventArgs e)
@@ -158,72 +140,49 @@ namespace Calculator
             if (_curBinOp != "")
             {
                 TBLog.Text = "";
-                if (_opState != OpsState.Default) _curArgument = CurNum;
+                _sm.UpdateStatesAfterEo(() => _curArgument = CurNum);
                 _accumulator = _processor.ProcessOperation(_curBinOp, new List<double> {_accumulator, _curArgument});
                 CurNum = _accumulator;
             }
-            _opState = OpsState.Default;
+            _logger.Erase();
         }
 
         private void BinOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
             string buttonText = (sender as Button)?.Content.ToString();
-            string[] splittedLog = TBLog.Text.Trim().Split(' ');
-            if (_opState == OpsState.Default)
-            {
-                _opState = OpsState.BOChoose;
-                _curBinOp = buttonText;
-                _accumulator = CurNum;
-                string curNumView = _uoState == UOState.Logged ? "" : CurNum.ToString();
-                _uoState = UOState.Default;
-                TBLog.Text += $"{curNumView} {buttonText} ";
-            }
-            else if (_opState == OpsState.BOChoose)
-            {
-                _curBinOp = buttonText;
-                splittedLog[splittedLog.Length - 1] = $"{buttonText} ";
-                TBLog.Text = string.Join(" ", splittedLog);
-            }
-            else if (_opState == OpsState.BOStarted)
-            {
-                _opState = OpsState.BOChoose;
-                _curArgument = CurNum;
-                string curNumView = _uoState == UOState.Logged ? "" : CurNum.ToString();
-                _uoState = UOState.Default;
-                TBLog.Text += $"{curNumView} {buttonText} ";
-                _accumulator = _processor.ProcessOperation(_curBinOp, new List<double> {_accumulator, _curArgument});
-                CurNum = _accumulator;
-                _curBinOp = buttonText;
-            }
+            _sm.UpdateStatesAfterBo(
+                buttonText,
+                (boState, uoState) =>
+                {
+                    _logger.LogBinOperation(boState, uoState, buttonText, CurNum.ToString());
+                    TBLog.Text = _logger.Log;
+                },
+                () =>
+                {
+                    _curBinOp = buttonText;
+                    _accumulator = CurNum;
+                },
+                () => _curBinOp = buttonText,
+                () =>
+                {
+                     _curArgument = CurNum;
+                     _curBinOp = buttonText;
+                     _accumulator = _processor.ProcessOperation(_curBinOp, new List<double> {_accumulator, _curArgument});
+                     CurNum = _accumulator;
+                }
+            );
         }
 
         private void UnOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            string[] splitLog = TBLog.Text.Trim().Split(' ');
-            string buttonText = (sender as Button)?.Content.ToString();
-            if (buttonText == null) return;
-            if (TBLog.Text == "")
-            {
-                if (buttonText != "±")
+            _sm.UpdateStatesAfterUo(boState =>
                 {
-                    TBLog.Text = $"{_unOpsDict[buttonText]}({CurNum})";
-                    _uoState = UOState.Logged;
-                }
-            }
-            else if (_binOperations.Contains(splitLog[splitLog.Length - 1]))
-            {
-                TBLog.Text += $"{_unOpsDict[buttonText]}({CurNum})";
-                _uoState = UOState.Logged;
-            }
-            else
-            {
-                string arg = splitLog[splitLog.Length - 1];
-                splitLog[splitLog.Length - 1] = $"{_unOpsDict[buttonText]}({arg})";
-                TBLog.Text = string.Join(" ", splitLog);
-                _uoState = UOState.Logged;
-            }
-
-            CurNum = _processor.ProcessOperation(buttonText, new List<double> {CurNum});
+                    string buttonText = (sender as Button)?.Content.ToString();
+                    if (buttonText == null) return;
+                    _logger.LogUnOperation(boState, buttonText, CurNum.ToString());
+                    TBLog.Text = _logger.Log;
+                    CurNum = _processor.ProcessOperation(buttonText, new List<double> {CurNum});
+                }, _logger.IsEmptyLogged);
         }
 
         private void FixCurrentNumTb()
@@ -234,16 +193,9 @@ namespace Calculator
             else if (TBCurNum.Text.Length > 12)
                 TBCurNum.FontSize = (double) fs.ConvertFrom("18pt");
             else 
-                TBCurNum.FontSize = (double) fs.ConvertFrom("20pt");
+                TBCurNum.FontSize = (double) fs.ConvertFrom("20pt"); 
             
-            if (TBCurNum.Text.Length == 16)
-            {
-                _numState = _dotState == DotState.Exists 
-                    ? NumState.WaitForLast 
-                    : NumState.WaitForDot;
-            } 
-            else if (TBCurNum.Text.Length < 16) _numState = NumState.Default;
-            else _numState = NumState.Overflow;
+            _sm.UpdateStatesAfterNumLenChange(TBCurNum.Text); 
         }
     }
 }

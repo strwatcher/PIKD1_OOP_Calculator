@@ -59,7 +59,9 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="OpsState.cs" />
+        <Compile Include="Logger.cs" />
+        <Compile Include="States.cs" />
+        <Compile Include="StateMachine.cs" />
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
