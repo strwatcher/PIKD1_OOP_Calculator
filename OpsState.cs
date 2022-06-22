@@ -3,15 +3,15 @@
     public enum OpsState
     {
         Default,
-        BOChoice,
+        BOChoose,
         BOStarted,
         BOProcessed,
     }
 
-    public enum BOArgState
+    public enum UOState
     {
         Default,
-        Changed,
+        Logged,
     }
 
     public enum NumState

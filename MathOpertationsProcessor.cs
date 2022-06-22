@@ -18,7 +18,6 @@ namespace Calculator
                 {"±", arguments => -arguments[0]},
                 {"1/x", arguments => 1/arguments[0]},
                 {"√", arguments => Math.Sqrt(arguments[0])},
-                
             };
 
 
