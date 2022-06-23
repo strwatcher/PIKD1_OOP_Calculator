@@ -87,6 +87,11 @@ namespace Calculator
             if (TbCurNum.Text == "0") TbCurNum.Text = "";
             string buttonText = (sender as Button)?.Content.ToString();
             _sm.UpdateStatesAfterDo(buttonText,
+                () =>
+                {
+                    _logger.DeleteLastLog();
+                    TbLog.Text = _logger.Log;
+                },
                 () => TbCurNum.Text = "", 
                 () => TbCurNum.Text += buttonText ?? String.Empty
                 );

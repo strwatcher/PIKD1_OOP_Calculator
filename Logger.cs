@@ -54,5 +54,12 @@ namespace Calculator
         {
             _log = "";
         }
+
+        public void DeleteLastLog()
+        {
+            string[] splitLog = SplitLog;
+            splitLog[splitLog.Length - 1] = "";
+            _log = string.Join(" ", splitLog);
+        }
     } 
 }

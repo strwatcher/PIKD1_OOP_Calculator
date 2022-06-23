@@ -26,9 +26,15 @@ namespace Calculator
             if (isDot) _dotState = DotState.NotExists;
             backspace();
         }
-        public void UpdateStatesAfterDo(string operation, 
+        public void UpdateStatesAfterDo(string operation, Action changeLastLog,
             Action clearNum, Action enterDigit)
         {
+            if (_uoState == UoState.Logged)
+            {
+                clearNum();
+                changeLastLog();
+                _uoState = UoState.Default;
+            }
             if (_boState == BoState.BoChoose)
             {
                 clearNum();
