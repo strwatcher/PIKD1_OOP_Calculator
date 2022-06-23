@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace Calculator
@@ -159,6 +160,25 @@ namespace Calculator
                 TbCurNum.FontSize = Convert.ToDouble(fs.ConvertFrom("18pt")); 
             
             _sm.UpdateStatesAfterNumLenChange(TbCurNum.Text); 
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D0 || e.Key == Key.NumPad0) DigitButton_OnClick(Button0, e);
+            else if (e.Key == Key.D1 || e.Key == Key.NumPad1) DigitButton_OnClick(Button1, e);
+            else if (e.Key == Key.D2 || e.Key == Key.NumPad2) DigitButton_OnClick(Button2, e);
+            else if (e.Key == Key.D3 || e.Key == Key.NumPad3) DigitButton_OnClick(Button3, e);
+            else if (e.Key == Key.D4 || e.Key == Key.NumPad4) DigitButton_OnClick(Button4, e);
+            else if (e.Key == Key.D5 || e.Key == Key.NumPad5) DigitButton_OnClick(Button5, e);
+            else if (e.Key == Key.D6 || e.Key == Key.NumPad6) DigitButton_OnClick(Button6, e);
+            else if (e.Key == Key.D7 || e.Key == Key.NumPad7) DigitButton_OnClick(Button7, e);
+            else if (e.Key == Key.D8 || e.Key == Key.NumPad8) DigitButton_OnClick(Button8, e);
+            else if (e.Key == Key.D9 || e.Key == Key.NumPad9) DigitButton_OnClick(Button9, e);
         }
     }
 }
