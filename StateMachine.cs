@@ -8,7 +8,18 @@ namespace Calculator
         private UoState _uoState = UoState.Default;
         private NumState _numState = NumState.Default;
         private DotState _dotState = DotState.NotExists;
+        private ExceptionState _eState = ExceptionState.Default;
 
+        public bool CanDoOperations()
+        {
+            return _eState == ExceptionState.Default;
+        }
+        
+        public void UpdateEState(ExceptionState exceptionState)
+        {
+            _eState = exceptionState;
+        }
+        
         public void ClearNumStates()
         {
             _dotState = DotState.NotExists;
@@ -19,6 +30,7 @@ namespace Calculator
         {
             _boState = BoState.Default;
             _uoState = UoState.Default;
+            _eState = ExceptionState.Default;
         }
 
         public void UpdateStatesAfterBackspace(bool isDot, Action backspace)

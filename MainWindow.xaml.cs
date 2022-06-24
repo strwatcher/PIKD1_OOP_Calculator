@@ -21,7 +21,21 @@ namespace Calculator
         private double CurNum
         {
             get => Convert.ToDouble(TbCurNum.Text);
-            set => TbCurNum.Text = value.ToString();
+            set
+            {
+                if (Double.IsNaN(value))
+                {
+                    TbCurNum.Text = "Invalid input";
+                    _sm.UpdateEState(ExceptionState.InvalidInput);
+                }
+                else if (Double.IsInfinity(value))
+                {
+                    TbCurNum.Text = "Overflow";
+                    _sm.UpdateEState(ExceptionState.Overflow);
+                }
+                else 
+                    TbCurNum.Text = value.ToString();
+            }
         }
 
         public MainWindow()
@@ -32,35 +46,41 @@ namespace Calculator
         
         private void McButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _savedValue = 0.0;
             MLabel.Content = "";
         }
 
         private void MrButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             CurNum = _savedValue;
         }
 
         private void MsButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _savedValue = CurNum;
             MLabel.Content = "M";
         }
 
         private void MPlusButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _savedValue += CurNum;
             MLabel.Content = "M";
         }
 
         private void MMinusButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _savedValue -= CurNum;
             MLabel.Content = "M";
         }
 
         private void BackspaceButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _sm.UpdateStatesAfterBackspace(
                 TbCurNum.Text[TbCurNum.Text.Length - 1] == '.',
                 () =>
@@ -74,6 +94,7 @@ namespace Calculator
 
         private void CeButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             TbCurNum.Text = "0";
             _sm.ClearNumStates();
         }
@@ -90,6 +111,7 @@ namespace Calculator
 
         private void DigitButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             if (TbCurNum.Text == "0") TbCurNum.Text = "";
             string buttonText = (sender as Button)?.Content.ToString();
             _sm.UpdateStatesAfterDo(buttonText,
@@ -105,6 +127,7 @@ namespace Calculator
 
         private void EqualsButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             TbLog.Text = "";
             if (_curBinOp != "")
             {
@@ -114,7 +137,6 @@ namespace Calculator
                 
                 _accumulator = _processor.ProcessOperation(
                     _curBinOp, new List<double> {_accumulator, _curArgument});
-                
                 CurNum = _accumulator;
                 
                 _logger.Erase();
@@ -123,6 +145,7 @@ namespace Calculator
 
         private void BinOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             string buttonText = (sender as Button)?.Content.ToString();
             _sm.UpdateStatesAfterBo(
                 (boState, uoState) =>
@@ -152,6 +175,7 @@ namespace Calculator
 
         private void UnOperationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _sm.UpdateStatesAfterUo(boState =>
                 {
                     string buttonText = (sender as Button)?.Content.ToString();
@@ -164,6 +188,7 @@ namespace Calculator
 
         private void PercentButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!_sm.CanDoOperations()) return;
             _sm.UpdateStatesAfterPo(uoState =>
             {
                 CurNum = _processor.ProcessOperation((sender as Button)?.Content.ToString(),

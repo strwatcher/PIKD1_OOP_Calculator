@@ -27,4 +27,11 @@
         Exists,
         NotExists
     }
+
+    public enum ExceptionState
+    {
+        Default,
+        Overflow,
+        InvalidInput
+    }
 }
