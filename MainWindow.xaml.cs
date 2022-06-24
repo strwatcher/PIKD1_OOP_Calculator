@@ -100,10 +100,9 @@ namespace Calculator
 
         private void EqualsButton_OnClick(object sender, RoutedEventArgs e)
         {
+            TbLog.Text = "";
             if (_curBinOp != "")
             {
-                TbLog.Text = "";
-                
                 _sm.UpdateStatesAfterEo(
                     () => _curArgument = CurNum,
                     () => _accumulator = CurNum); 
