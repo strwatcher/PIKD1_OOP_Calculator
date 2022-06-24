@@ -21,10 +21,16 @@ namespace Calculator
             string operation, string argument
             )
         {
-            if (boState == BoState.Default || boState == BoState.BoStarted)
+            if (boState == BoState.Default || boState == BoState.BoStarted || boState == BoState.BOProcessed)
             {
                 string argumentView = uoState == UoState.Logged ? "" : argument;
                 _log += $"{argumentView} {operation} ";
+            }
+            else if (boState == BoState.BoChoose)
+            {
+                string[] splitLog = SplitLog;
+                splitLog[splitLog.Length - 1] = operation + " ";
+                _log = string.Join(" ", splitLog);
             }
         }
 
@@ -35,7 +41,7 @@ namespace Calculator
             string[] splitLog = SplitLog;
             string lastLogArg = splitLog[splitLog.Length - 1];
             
-            if (boState == BoState.BoStarted &&
+            if (boState != BoState.BoChoose &&
                 operation == "±" &&
                 (_binOps.Contains(lastLogArg) || lastLogArg == "")) {}
             
@@ -60,6 +66,20 @@ namespace Calculator
             string[] splitLog = SplitLog;
             splitLog[splitLog.Length - 1] = "";
             _log = string.Join(" ", splitLog);
+        }
+
+        public void LogPercentOperation(UoState uoState, double argument)
+        {
+            if (uoState == UoState.Default)
+            {
+                _log += $"{argument}";
+            }
+            else
+            {
+                string[] splitLog = SplitLog;
+                splitLog[splitLog.Length - 1] = $"{argument}";
+                _log = string.Join(" ", splitLog);
+            }
         }
     } 
 }

@@ -126,12 +126,21 @@ namespace Calculator
                     _logger.LogBinOperation(boState, uoState, buttonText, CurNum.ToString());
                     TbLog.Text = _logger.Log;
                 },
-                () => _curBinOp = buttonText,
-                () => _accumulator = CurNum,
                 () =>
                 {
-                     _curArgument = CurNum;
-                     _accumulator = _processor.ProcessOperation(_curBinOp, new List<double> {_accumulator, _curArgument});
+                    _curBinOp = buttonText;
+                    _curArgument = CurNum;
+                    _accumulator = CurNum;
+                },
+                () =>
+                {
+                    _curBinOp = buttonText;
+                },
+                () =>
+                {
+                    _curBinOp = buttonText;
+                    _curArgument = CurNum;
+                    _accumulator = _processor.ProcessOperation(_curBinOp, new List<double> {_accumulator, _curArgument});
                      CurNum = _accumulator;
                 }
             );
@@ -149,6 +158,18 @@ namespace Calculator
                 }, _logger.IsEmptyLogged);
         }
 
+        private void PercentButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _sm.UpdateStatesAfterPo(uoState =>
+            {
+                CurNum = _processor.ProcessOperation((sender as Button)?.Content.ToString(),
+                    new List<double> {_accumulator, CurNum});
+                _logger.LogPercentOperation(uoState, CurNum);
+                TbLog.Text = _logger.Log;
+            });
+            
+        }
+
         private void FixCurrentNumTb()
         {
             FontSizeConverter fs = new FontSizeConverter();
@@ -162,14 +183,14 @@ namespace Calculator
             _sm.UpdateStatesAfterNumLenChange(TbCurNum.Text); 
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-        }
-
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.D0 || e.Key == Key.NumPad0) DigitButton_OnClick(Button0, e);
+            if (e.Key == Key.D2 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
+                UnOperationButton_OnClick(SqrtButton, e);
+            else if (e.Key == Key.F9) UnOperationButton_OnClick(SignButton, e);
+            else if (e.Key == Key.R) UnOperationButton_OnClick(InvertButton, e);
+            
+            else if (e.Key == Key.D0 || e.Key == Key.NumPad0) DigitButton_OnClick(Button0, e);
             else if (e.Key == Key.D1 || e.Key == Key.NumPad1) DigitButton_OnClick(Button1, e);
             else if (e.Key == Key.D2 || e.Key == Key.NumPad2) DigitButton_OnClick(Button2, e);
             else if (e.Key == Key.D3 || e.Key == Key.NumPad3) DigitButton_OnClick(Button3, e);
@@ -179,6 +200,19 @@ namespace Calculator
             else if (e.Key == Key.D7 || e.Key == Key.NumPad7) DigitButton_OnClick(Button7, e);
             else if (e.Key == Key.D8 || e.Key == Key.NumPad8) DigitButton_OnClick(Button8, e);
             else if (e.Key == Key.D9 || e.Key == Key.NumPad9) DigitButton_OnClick(Button9, e);
+            else if (e.Key == Key.OemPeriod || e.Key == Key.OemComma) DigitButton_OnClick(DotButton, e);
+            
+            else if (e.Key == Key.Add || e.Key == Key.OemPlus) BinOperationButton_OnClick(PlusButton, e);
+            else if (e.Key == Key.Multiply) BinOperationButton_OnClick(MultButton, e);
+            else if (e.Key == Key.Subtract || e.Key == Key.OemMinus) BinOperationButton_OnClick(MinusButton, e);
+            else if (e.Key == Key.Divide) BinOperationButton_OnClick(DivideButton, e);
+            
+            else if (e.Key == Key.Enter) EqualsButton_OnClick(EqualsButton, e);
+            
+            else if (e.Key == Key.Back) BackspaceButton_OnClick(BackspaceButton, e);
+            else if (e.Key == Key.Delete) CeButton_OnClick(CeButton, e);
+            else if (e.Key == Key.Escape) CButton_OnClick(CButton, e);
+            
         }
     }
 }

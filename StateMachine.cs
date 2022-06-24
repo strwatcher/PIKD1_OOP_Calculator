@@ -8,6 +8,7 @@ namespace Calculator
         private UoState _uoState = UoState.Default;
         private NumState _numState = NumState.Default;
         private DotState _dotState = DotState.NotExists;
+
         public void ClearNumStates()
         {
             _dotState = DotState.NotExists;
@@ -26,6 +27,7 @@ namespace Calculator
             if (isDot) _dotState = DotState.NotExists;
             backspace();
         }
+
         public void UpdateStatesAfterDo(string operation, Action changeLastLog,
             Action clearNum, Action enterDigit)
         {
@@ -35,6 +37,7 @@ namespace Calculator
                 changeLastLog();
                 _uoState = UoState.Default;
             }
+
             if (_boState == BoState.BoChoose)
             {
                 clearNum();
@@ -51,9 +54,9 @@ namespace Calculator
                 _numState == NumState.WaitForLast ||
                 _numState == NumState.WaitForDot && operation == ".")
             {
-                 if (operation == "." && _dotState == DotState.Exists) return;
-                 if (operation == ".") _dotState = DotState.Exists;
-                 enterDigit();
+                if (operation == "." && _dotState == DotState.Exists) return;
+                if (operation == ".") _dotState = DotState.Exists;
+                enterDigit();
             }
         }
 
@@ -66,25 +69,24 @@ namespace Calculator
             }
             else if (_boState == BoState.BOProcessed || _boState == BoState.Default) repeatOperation();
         }
-        public void UpdateStatesAfterBo(Action<BoState, UoState> log, Action updateOperation,
-            Action updateAccumulator, Action process)
+
+        public void UpdateStatesAfterBo(Action<BoState, UoState> log, Action boDefault,
+            Action boChoose, Action boStarted)
         {
             log(_boState, _uoState);
-            if (_boState == BoState.Default)
+            if (_boState == BoState.Default || _boState == BoState.BOProcessed)
             {
-                updateOperation();
-                updateAccumulator();
+                boDefault();
                 _boState = BoState.BoChoose;
                 _uoState = UoState.Default;
             }
             else if (_boState == BoState.BoChoose)
             {
-                updateOperation();
+                boChoose();
             }
             else if (_boState == BoState.BoStarted)
             {
-                updateOperation();
-                process();
+                boStarted();
                 _boState = BoState.BoChoose;
                 _uoState = UoState.Default;
             }
@@ -106,6 +108,12 @@ namespace Calculator
             }
             else if (num.Length < 16) _numState = NumState.Default;
             else _numState = NumState.Overflow;
+        }
+
+        public void UpdateStatesAfterPo(Action<UoState> action)
+        {
+            action(_uoState);
+            _uoState = UoState.Default;
         }
     }
 }

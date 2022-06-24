@@ -15,6 +15,7 @@ namespace Calculator
                 {"±", arguments => -arguments[0]},
                 {"1/x", arguments => 1 / arguments[0]},
                 {"√", arguments => Math.Sqrt(arguments[0])},
+                {"%", arguments => arguments[0] * (arguments[1] / 100.0)}
             };
 
 
