@@ -16,6 +16,7 @@ namespace Calculator
         private string _curBinOp = "";
         private double _curArgument;
         private double _accumulator;
+        private double _savedValue;
 
         private double CurNum
         {
@@ -31,27 +32,31 @@ namespace Calculator
         
         private void McButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _savedValue = 0.0;
+            MLabel.Content = "";
         }
 
         private void MrButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            CurNum = _savedValue;
         }
 
         private void MsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _savedValue = CurNum;
+            MLabel.Content = "M";
         }
 
         private void MPlusButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _savedValue += CurNum;
+            MLabel.Content = "M";
         }
 
         private void MMinusButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _savedValue -= CurNum;
+            MLabel.Content = "M";
         }
 
         private void BackspaceButton_OnClick(object sender, RoutedEventArgs e)
@@ -184,7 +189,15 @@ namespace Calculator
 
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.D2 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            {
+                if (e.Key == Key.Q) MMinusButton_OnClick(MMinusButton, e);
+                else if (e.Key == Key.P) MPlusButton_OnClick(MPlusButton, e);
+                else if (e.Key == Key.M) MsButton_OnClick(MsButton, e);
+                else if (e.Key == Key.R) MrButton_OnClick(MrButton, e);
+                else if (e.Key == Key.L) McButton_OnClick(McButton, e);
+            }
+            else if (e.Key == Key.D2 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
                 UnOperationButton_OnClick(SqrtButton, e);
             else if (e.Key == Key.F9) UnOperationButton_OnClick(SignButton, e);
             else if (e.Key == Key.R) UnOperationButton_OnClick(InvertButton, e);
@@ -204,7 +217,7 @@ namespace Calculator
             else if (e.Key == Key.Back) BackspaceButton_OnClick(BackspaceButton, e);
             else if (e.Key == Key.Delete) CeButton_OnClick(CeButton, e);
             else if (e.Key == Key.Escape) CButton_OnClick(CButton, e);
-           
+
             else if (e.Key == Key.D0 || e.Key == Key.NumPad0) DigitButton_OnClick(Button0, e);
             else if (e.Key == Key.D1 || e.Key == Key.NumPad1) DigitButton_OnClick(Button1, e);
             else if (e.Key == Key.D2 || e.Key == Key.NumPad2) DigitButton_OnClick(Button2, e);

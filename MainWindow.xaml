@@ -26,6 +26,7 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbLog" FontSize="12pt" HorizontalContentAlignment="Right"></TextBox>
         <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbCurNum" FontSize="18pt" Text="0" HorizontalContentAlignment="Right"></TextBox>
+        <Label Grid.Row="1" Grid.Column="0" Content="" VerticalAlignment="Bottom" Name="MLabel" FontSize="12pt"></Label>
         <Button Grid.Row="2" Grid.Column="0" Content="MC" Name="McButton" Click="McButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="1" Content="MR" Name="MrButton" Click="MrButton_OnClick"></Button>
         <Button Grid.Row="2" Grid.Column="2" Content="MS" Name="MsButton" Click="MsButton_OnClick"></Button>
