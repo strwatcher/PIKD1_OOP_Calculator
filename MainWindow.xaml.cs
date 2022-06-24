@@ -190,6 +190,22 @@ namespace Calculator
             else if (e.Key == Key.F9) UnOperationButton_OnClick(SignButton, e);
             else if (e.Key == Key.R) UnOperationButton_OnClick(InvertButton, e);
             
+            else if (e.Key == Key.D5 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
+                PercentButton_OnClick(PercentButton, e);
+            
+            else if (e.Key == Key.Multiply || e.Key == Key.D8 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
+                BinOperationButton_OnClick(MultButton, e);
+            else if (e.Key == Key.Add || e.Key == Key.OemPlus && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) 
+                BinOperationButton_OnClick(PlusButton, e);
+            else if (e.Key == Key.Subtract || e.Key == Key.OemMinus) BinOperationButton_OnClick(MinusButton, e);
+            else if (e.Key == Key.Divide || e.Key == Key.Oem2) BinOperationButton_OnClick(DivideButton, e);
+                        
+            else if (e.Key == Key.Enter || e.Key == Key.OemPlus) EqualsButton_OnClick(EqualsButton, e);
+                        
+            else if (e.Key == Key.Back) BackspaceButton_OnClick(BackspaceButton, e);
+            else if (e.Key == Key.Delete) CeButton_OnClick(CeButton, e);
+            else if (e.Key == Key.Escape) CButton_OnClick(CButton, e);
+           
             else if (e.Key == Key.D0 || e.Key == Key.NumPad0) DigitButton_OnClick(Button0, e);
             else if (e.Key == Key.D1 || e.Key == Key.NumPad1) DigitButton_OnClick(Button1, e);
             else if (e.Key == Key.D2 || e.Key == Key.NumPad2) DigitButton_OnClick(Button2, e);
@@ -201,18 +217,6 @@ namespace Calculator
             else if (e.Key == Key.D8 || e.Key == Key.NumPad8) DigitButton_OnClick(Button8, e);
             else if (e.Key == Key.D9 || e.Key == Key.NumPad9) DigitButton_OnClick(Button9, e);
             else if (e.Key == Key.OemPeriod || e.Key == Key.OemComma) DigitButton_OnClick(DotButton, e);
-            
-            else if (e.Key == Key.Add || e.Key == Key.OemPlus) BinOperationButton_OnClick(PlusButton, e);
-            else if (e.Key == Key.Multiply) BinOperationButton_OnClick(MultButton, e);
-            else if (e.Key == Key.Subtract || e.Key == Key.OemMinus) BinOperationButton_OnClick(MinusButton, e);
-            else if (e.Key == Key.Divide) BinOperationButton_OnClick(DivideButton, e);
-            
-            else if (e.Key == Key.Enter) EqualsButton_OnClick(EqualsButton, e);
-            
-            else if (e.Key == Key.Back) BackspaceButton_OnClick(BackspaceButton, e);
-            else if (e.Key == Key.Delete) CeButton_OnClick(CeButton, e);
-            else if (e.Key == Key.Escape) CButton_OnClick(CButton, e);
-            
         }
     }
 }
