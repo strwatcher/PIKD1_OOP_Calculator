@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Remoting.Channels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace Calculator
@@ -38,8 +40,9 @@ namespace Calculator
         {
             InitializeComponent();
             TbCurNum.TextChanged += (sender, args) => FixCurrentNumTb();
+            TbLog.TextChanged += (sender, args) => FixLogTb();
         }
-        
+
         private void McButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (!_state.CanDoOperations()) return;
@@ -178,6 +181,15 @@ namespace Calculator
                 TbCurNum.FontSize = Convert.ToDouble(fs.ConvertFrom("18pt")); 
             
             _state.UpdateStatesAfterNumLenChange(TbCurNum.Text); 
+        }
+
+        private void FixLogTb()
+        {
+            if (TbLog.Text.Length > 24)
+            {
+                int len = TbLog.Text.Length;
+                TbLog.Text = "«" + TbLog.Text.Substring(len - 24, 24);
+            }
         }
 
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)

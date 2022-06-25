@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="250"
-        ResizeMode="NoResize" KeyDown="MainWindow_OnKeyDown">
+        ResizeMode="NoResize" KeyDown="MainWindow_OnKeyDown" FontFamily="Courier New">
     <Grid Name="ControlsGrid">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -24,8 +24,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbLog" FontSize="12pt" HorizontalContentAlignment="Right"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbCurNum" FontSize="18pt" Text="0" HorizontalContentAlignment="Right"></TextBox>
+        <TextBox Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbLog" FontSize="12pt" HorizontalContentAlignment="Right" BorderThickness="0"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" IsHitTestVisible="False" Name="TbCurNum" FontSize="18pt" Text="0" HorizontalContentAlignment="Right" BorderThickness="0"></TextBox>
         <Label Grid.Row="1" Grid.Column="0" Content="" VerticalAlignment="Bottom" Name="MLabel" FontSize="12pt"></Label>
         <Button Grid.Row="2" Grid.Column="0" Content="MC" Name="McButton" Click="McButton_OnClick" Focusable="False"></Button>
         <Button Grid.Row="2" Grid.Column="1" Content="MR" Name="MrButton" Click="MrButton_OnClick" Focusable="False"></Button>
