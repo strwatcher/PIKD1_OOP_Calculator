@@ -1,6 +1,6 @@
 ﻿namespace CalculatorTests;
 
-public class LoggerTests
+public class CalculationsTests
 {
     
 }
