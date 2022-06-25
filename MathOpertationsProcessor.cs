@@ -57,7 +57,9 @@ namespace Calculator
 
         public double ProcessUnOperation(State state, string type, double argument)
         {
-            state.BoState = BoState.Default;
+            state.BoState = state.BoState == BoState.BoStarted 
+                ? BoState.BoStarted
+                : BoState.Default;
             return ProcessOperation(type, new List<double> {argument});
         }
 
