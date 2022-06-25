@@ -134,7 +134,7 @@ public class CalculationsTests
     {
         _calc.BinOperation("+", 100);
         var state = new State {BoState = BoState.BoStarted};
-        _calc.PercentOperation(25);
+        _calc.PercentOperation(25, state);
         _calc.EqualsOperation(_calc.Res);
         Assert.That(_calc.Res, Is.EqualTo(125));
     }
