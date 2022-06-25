@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a1e814a_002Dd3bc_002D4c6d_002D9f21_002D03768e34e7e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ChangeOperationThanExecuteNextOperation" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a1e814a_002Dd3bc_002D4c6d_002D9f21_002D03768e34e7e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangeOperationThanExecuteNextOperation" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B5FF12E7-81D0-4E59-8037-5E1C7842F023::net6.0::CalculatorTests.CommonTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B5FF12E7-81D0-4E59-8037-5E1C7842F023::net6.0::CalculatorTests.ExceptionsTests.SqrtFromNegative&lt;/TestId&gt;&#xD;
@@ -7,8 +7,6 @@
     &lt;TestId&gt;NUnit3x::B5FF12E7-81D0-4E59-8037-5E1C7842F023::net6.0::CalculatorTests.ExceptionsTests.DivideByZero&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc52195b_002D35f8_002D48be_002Da2b8_002Df0b3bca9a6b6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::B5FF12E7-81D0-4E59-8037-5E1C7842F023::net6.0::CalculatorTests.Tests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc52195b_002D35f8_002D48be_002Da2b8_002Df0b3bca9a6b6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\Users\redmo\Home\Code\Calculator\CalculatorTests" Presentation="&amp;lt;CalculatorTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

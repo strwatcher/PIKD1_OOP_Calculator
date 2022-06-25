@@ -65,7 +65,9 @@ namespace Calculator
 
         public double ProcessPercentOperation(State state, double argument, string type = "%")
         {
-            state.BoState = BoState.Default;
+            state.BoState = state.BoState == BoState.BoStarted 
+                ? BoState.BoStarted
+                : BoState.Default;
             return ProcessOperation(type, new List<double> {_accumulator, argument});
         }
 
