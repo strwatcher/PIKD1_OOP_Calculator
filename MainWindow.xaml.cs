@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -86,9 +85,15 @@ namespace Calculator
 
         private void CeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!_state.CanDoOperations()) return;
-            TbCurNum.Text = "0";
-            _state.ClearNumStates();
+            if (!_state.CanDoOperations())
+            {
+                CButton_OnClick(sender, e);
+            }
+            else
+            {
+                TbCurNum.Text = "0";
+                _state.ClearNumStates();
+            }
         }
 
         private void CButton_OnClick(object sender, RoutedEventArgs e)
