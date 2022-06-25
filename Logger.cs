@@ -15,18 +15,17 @@ namespace Calculator
         private string[] SplitLog => _log.Trim().Split(' ');
         public string Log => _log;
 
-        public bool IsEmptyLogged => SplitLog[SplitLog.Length - 1] == "";
         public void LogBinOperation(
-            BoState boState, UoState uoState,
-            string operation, string argument
+            State state,
+            string operation, double argument
             )
         {
-            if (boState == BoState.Default || boState == BoState.BoStarted || boState == BoState.BOProcessed)
+            if (state.BoState != BoState.BoChoose) 
             {
-                string argumentView = uoState == UoState.Logged ? "" : argument;
+                string argumentView = state.UoState == UoState.Logged ? "" : $"{argument}";
                 _log += $"{argumentView} {operation} ";
             }
-            else if (boState == BoState.BoChoose)
+            else if (state.BoState == BoState.BoChoose)
             {
                 string[] splitLog = SplitLog;
                 splitLog[splitLog.Length - 1] = operation + " ";
@@ -35,24 +34,30 @@ namespace Calculator
         }
 
         public void LogUnOperation(
-            BoState boState, string operation, string argument
+            State state, string operation, double argument
             )
         {
             string[] splitLog = SplitLog;
             string lastLogArg = splitLog[splitLog.Length - 1];
-            
-            if (boState != BoState.BoChoose &&
+
+            if (state.BoState != BoState.BoChoose &&
                 operation == "±" &&
-                (_binOps.Contains(lastLogArg) || lastLogArg == "")) {}
-            
+                (_binOps.Contains(lastLogArg) || lastLogArg == ""))
+            {
+                state.UoState = UoState.Default;
+            }
+
             else if (_binOps.Contains(lastLogArg))
+            {
                 _log += $"{_unOpsDict[operation]}({argument})";
-            
+                state.UoState = UoState.Logged;
+            }
             else
-            { 
-                string arg = lastLogArg == "" ? argument : lastLogArg;
+            {
+                string arg = lastLogArg == "" ? $"{argument}" : lastLogArg;
                 splitLog[splitLog.Length - 1] = $"{_unOpsDict[operation]}({arg})";
                 _log = string.Join(" ", splitLog);
+                state.UoState = UoState.Logged;
             }
         }
 
@@ -68,9 +73,9 @@ namespace Calculator
             _log = string.Join(" ", splitLog);
         }
 
-        public void LogPercentOperation(UoState uoState, double argument)
+        public void LogPercentOperation(State state, double argument)
         {
-            if (uoState == UoState.Default)
+            if (state.UoState == UoState.Default)
             {
                 _log += $"{argument}";
             }
@@ -80,6 +85,8 @@ namespace Calculator
                 splitLog[splitLog.Length - 1] = $"{argument}";
                 _log = string.Join(" ", splitLog);
             }
+            
+            state.UoState = UoState.Default;
         }
     } 
 }
